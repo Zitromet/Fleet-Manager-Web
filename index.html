@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!-- Fleet Website - sign-in page. After signing in you go to dashboard.html -->
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ffffff" />
+  <title>Fleet Website — Sign in</title>
+  <link rel="icon" type="image/png" href="fleet_icon.png" />
+  <link rel="apple-touch-icon" href="fleet_icon.png" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/website.css" />
+</head>
+<body class="login-page">
+  <main class="login-box card">
+    <img src="fleet_icon.png" alt="" class="login-logo" />
+    <h1>Fleet Manager</h1>
+    <p class="login-sub">Sign in to view and edit your fleet.</p>
+
+    <!-- shown only when config.js still has the placeholder values -->
+    <div id="configWarning" class="notice notice-warn" hidden>
+      <strong>Not connected yet.</strong> Put your Supabase URL and anon key in
+      <code>config.js</code> (see SETUP.md, step 4).
+    </div>
+
+    <form id="loginForm">
+      <div class="form-field">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" autocomplete="username" required />
+      </div>
+      <div class="form-field">
+        <label for="password">Password</label>
+        <input type="password" id="password" autocomplete="current-password" />
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+      <button type="button" id="magicBtn" class="btn btn-block">✉️ E-mail me a sign-in link instead</button>
+    </form>
+    <p id="loginMsg" class="login-msg" role="status"></p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="config.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>
