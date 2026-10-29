@@ -1,0 +1,465 @@
+/* Fleet Website styles.
+   Copied unchanged from the old Fleet_Dashboard.html (same look;
+   website-only styles live in website.css). */
+
+:root[data-theme="dark"] {
+  --bg-main: #0b1120;
+  --bg-card: #111827;
+  --bg-card-alt: #1e293b;
+  --bg-input: #0f172a;
+  --border: #334155;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --accent: #38bdf8;
+  --accent-hover: #0284c7;
+  --yellow-input: rgba(250, 204, 21, 0.14);
+  --yellow-border: #eab308;
+  --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+}
+:root, :root[data-theme="light"] {
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-card-alt: #f1f5f9;
+  --bg-input: #ffffff;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --yellow-input: #fefce8;
+  --yellow-border: #eab308;
+  --shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Arial, sans-serif;
+  background: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.5;
+  padding-bottom: 90px;
+}
+
+/* Top Navigation Bar */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 20px;
+}
+[data-theme="light"] .topbar {
+  background: rgba(255, 255, 255, 0.94);
+}
+.topbar-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.brand-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1e3a8a, #0284c7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 18px;
+  box-shadow: 0 4px 10px rgba(2, 132, 199, 0.35);
+}
+.brand-title h1 {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.brand-title p {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.top-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 13px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  background: var(--bg-card-alt);
+  color: var(--text-main);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+.btn:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+.btn-primary {
+  background: linear-gradient(135deg, #2563eb, #0284c7);
+  border-color: transparent;
+  color: #fff;
+}
+.btn-success {
+  background: linear-gradient(135deg, #059669, #10b981);
+  border-color: transparent;
+  color: #fff;
+}
+
+/* Main Container */
+.container {
+  max-width: 1440px;
+  margin: 18px auto;
+  padding: 0 16px;
+}
+
+/* Vehicle Selector Tabs */
+.vehicle-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.v-tab {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+.v-tab:hover {
+  border-color: var(--accent);
+}
+.v-tab.active {
+  border-color: #2563eb;
+  background: linear-gradient(180deg, rgba(37, 99, 235, 0.06), var(--bg-card));
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2);
+}
+.v-tab-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.v-tab-name {
+  font-weight: 800;
+  font-size: 14px;
+}
+.v-tab-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+}
+.v-pill {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  color: #fff;
+}
+
+/* Sub-view navigation */
+.subnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+}
+.sub-btn {
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+.sub-btn.active {
+  background: var(--bg-card-alt);
+  color: var(--text-main);
+  border-color: var(--border);
+}
+
+/* Status Counter Strip (Matches Excel F4:K5!) */
+.status-strip {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.stat-box {
+  border-radius: 10px;
+  padding: 10px 12px;
+  text-align: center;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+}
+.stat-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 3px 6px;
+  border-radius: 5px;
+  margin-bottom: 6px;
+  display: inline-block;
+  width: 100%;
+}
+.stat-val {
+  font-size: 24px;
+  font-weight: 800;
+}
+.st-OVERDUE { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
+.st-HASTOBEDONE { background: #ffedd5; color: #c2410c; border: 1px solid #fed7aa; }
+.st-VERYSOON { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+.st-SOON { background: #fef9c3; color: #854d0e; border: 1px solid #fef08a; }
+.st-OK { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+.st-NORECORD { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+
+/* Cards & Grid */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 18px;
+}
+.card-hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.card-title {
+  font-size: 15px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Bright Yellow Mileage Input Box (Matches Excel C5!) */
+.odo-input-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--yellow-input);
+  border: 2px solid var(--yellow-border);
+  padding: 8px 12px;
+  border-radius: 10px;
+}
+.odo-input-group label {
+  font-size: 12px;
+  font-weight: 800;
+  color: #eab308;
+  text-transform: uppercase;
+}
+[data-theme="light"] .odo-input-group label {
+  color: #854d0e;
+}
+.odo-input {
+  width: 115px;
+  padding: 6px 10px;
+  font-size: 16px;
+  font-weight: 800;
+  border-radius: 6px;
+  border: 1px solid var(--yellow-border);
+  background: var(--bg-input);
+  color: #38bdf8;
+  text-align: right;
+}
+[data-theme="light"] .odo-input {
+  color: #1d4ed8;
+}
+
+/* Tables */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  background: var(--bg-card-alt);
+  color: var(--text-muted);
+  font-weight: 700;
+  text-align: left;
+  padding: 10px 10px;
+  white-space: nowrap;
+  font-size: 12px;
+  border-bottom: 2px solid var(--border);
+}
+td {
+  padding: 9px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+tr:hover td {
+  background: rgba(56, 189, 248, 0.05);
+}
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+.center { text-align: center; }
+.badge {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 6px;
+  font-weight: 800;
+  font-size: 11px;
+  text-align: center;
+  min-width: 90px;
+}
+
+/* Key-value Specs Grid */
+.kv-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 7px;
+  font-size: 13px;
+}
+.kv-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.kv-key { color: var(--text-muted); font-weight: 600; }
+.kv-val { font-weight: 700; text-align: right; }
+
+/* Form Controls */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.form-field label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.form-field input, .form-field select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-main);
+  font-size: 13px;
+}
+
+/* Progress Bar */
+.prog-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-input);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 6px;
+  border: 1px solid var(--border);
+}
+.prog-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+/* Mobile Bottom Navigation (for Samsung Galaxy S25 Ultra!) */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(15, 23, 42, 0.96);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border);
+  z-index: 200;
+  padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+[data-theme="light"] .mobile-nav {
+  background: rgba(255, 255, 255, 0.96);
+}
+.m-nav-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 6px 4px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  cursor: pointer;
+}
+.m-nav-btn.active {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+}
+
+@media (max-width: 980px) {
+  .grid-3, .grid-2 { grid-template-columns: 1fr; }
+  .vehicle-tabs { grid-template-columns: repeat(2, 1fr); }
+  .status-strip { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 640px) {
+  .vehicle-tabs { grid-template-columns: 1fr 1fr; }
+  .mobile-nav { display: grid; }
+  .topbar { padding: 10px 12px; }
+  .brand-title h1 { font-size: 15px; }
+}
