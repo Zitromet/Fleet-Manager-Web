@@ -29,6 +29,16 @@ function check(result, what) {
 }
 
 // ---------- translate rows: database <-> dashboard ----------
+function blankToNull(s) {
+  if (s === null || s === undefined) return null;
+  const t = String(s).trim();
+  return t === "" ? null : t;
+}
+function intOrNull(n) {
+  if (n === null || n === undefined || n === "") return null;
+  const x = Number(n);
+  return Number.isFinite(x) ? Math.round(x) : null;
+}
 function vehicleFromRow(r) {
   return {
     id: r.id, sortOrder: r.sort_order, name: r.name, fullName: r.full_name,
@@ -37,6 +47,8 @@ function vehicleFromRow(r) {
     mileageUpdatedDate: r.mileage_updated_date, manufactured: r.manufactured,
     engine: r.engine, transmission: r.transmission, drivetrain: r.drivetrain,
     gvwr: r.gvwr, oilSpec: r.oil_spec, oilNote: r.oil_note,
+    exteriorColor: r.exterior_color ?? null, interior: r.interior ?? null,
+    mpgCity: r.mpg_city ?? null, mpgHighway: r.mpg_highway ?? null,
     dmv: r.dmv || {}, tires: r.tires || {}, items: [],
   };
 }
@@ -48,6 +60,8 @@ function vehicleToRow(v) {
     mileage_updated_date: v.mileageUpdatedDate || null, manufactured: v.manufactured,
     engine: v.engine, transmission: v.transmission, drivetrain: v.drivetrain,
     gvwr: v.gvwr, oil_spec: v.oilSpec, oil_note: v.oilNote,
+    exterior_color: blankToNull(v.exteriorColor), interior: blankToNull(v.interior),
+    mpg_city: intOrNull(v.mpgCity), mpg_highway: intOrNull(v.mpgHighway),
     dmv: v.dmv || {}, tires: v.tires || {},
   };
 }
