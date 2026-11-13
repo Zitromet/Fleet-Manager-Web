@@ -174,6 +174,27 @@ function fmtNum(n) {
   return Number(n).toLocaleString("en-US");
 }
 
+function dashText(s) {
+  if (s === null || s === undefined || String(s).trim() === "") return "—";
+  return String(s).replace(/[&<>"']/g, c =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function fmtEpaMpg(city, hwy) {
+  const part = (n) => (n === null || n === undefined || n === "" || Number.isNaN(Number(n))) ? null : fmtNum(n);
+  const c = part(city);
+  const h = part(hwy);
+  if (c === null && h === null) return "—";
+  return (c === null ? "—" : c) + " / " + (h === null ? "—" : h) + " mpg";
+}
+
+function renderVehicleSpecExtras(v) {
+  return `
+    <div class="kv-row"><span class="kv-key">Exterior color</span><span class="kv-val">${dashText(v.exteriorColor)}</span></div>
+    <div class="kv-row"><span class="kv-key">Interior</span><span class="kv-val">${dashText(v.interior)}</span></div>
+    <div class="kv-row"><span class="kv-key">EPA fuel economy</span><span class="kv-val">${fmtEpaMpg(v.mpgCity, v.mpgHighway)}</span></div>`;
+}
+
 function fmtMoney(n) {
   return "$" + (Number(n) || 0).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
@@ -200,14 +221,20 @@ function renderVehicleTabs() {
     0
   );
 
+  const fleetCount = DB.vehicles.length;
+  const fleetNames = DB.vehicles
+    .slice()
+    .sort((a, b) => (Number(a.sortOrder) || 0) - (Number(b.sortOrder) || 0))
+    .map(v => v.shortLabel || v.name)
+    .join(" • ");
   let html = `
     <button class="v-tab ${currentVehicle === 'all' ? 'active' : ''}" onclick="setVehicle('all')">
       <div class="v-tab-top">
-        <span class="v-tab-name">🚘 All 3 Cars (Fleet View)</span>
-        <span class="v-pill" style="background:#4f46e5;">3 Vehicles</span>
+        <span class="v-tab-name">🚘 All ${fleetCount} ${fleetCount === 1 ? "Car" : "Cars"} (Fleet View)</span>
+        <span class="v-pill" style="background:#4f46e5;">${fleetCount} ${fleetCount === 1 ? "Vehicle" : "Vehicles"}</span>
       </div>
       <div class="v-tab-sub">
-        <span>Passat • Atlas • Model Y</span>
+        <span>${fleetNames}</span>
         <span>${totalUrgent} Action Items</span>
       </div>
     </button>
@@ -274,7 +301,7 @@ function renderDashboardView() {
 
   let html = renderStatusStrip(aggCounts);
 
-  // If Fleet View ('all'), show the 3-car side-by-side summary cards + unified Top Urgent table
+  // If Fleet View ('all'), show the side-by-side summary cards + unified Top Urgent table
   if (currentVehicle === "all") {
     html += `<div class="grid-3">`;
     for (const { v, res } of vehResults) {
@@ -300,6 +327,7 @@ function renderDashboardView() {
           </div>
           <div class="kv-list" style="margin-bottom:12px;">
             <div class="kv-row"><span class="kv-key">Tires & Cold PSI</span><span class="kv-val">${v.tires.sizeFrontRear} @ ${v.tires.psiFront} PSI</span></div>
+            ${renderVehicleSpecExtras(v)}
             <div class="kv-row"><span class="kv-key">NYS Inspection Exp</span><span class="kv-val">${v.dmv.inspectionExpires}</span></div>
             <div class="kv-row"><span class="kv-key">NY Registration Exp</span><span class="kv-val">${v.dmv.registrationExpires}</span></div>
             <div class="kv-row"><span class="kv-key">Logged Spend</span><span class="kv-val">${fmtMoney(res.totalSpend)}</span></div>
@@ -343,6 +371,10 @@ function renderDashboardView() {
               Total Logged Spend: <strong>${fmtMoney(res.totalSpend)}</strong>
             </div>
           </div>
+        </div>
+
+        <div class="kv-list" style="margin-bottom:16px;">
+          ${renderVehicleSpecExtras(v)}
         </div>
 
         <!-- NEXT UP - MOST URGENT FIRST (Top 5 Table matching Rows 8-14 of Excel!) -->
@@ -679,7 +711,7 @@ function renderInsuranceView() {
         </div>
         <div class="kv-list">
           <div class="kv-row">
-            <span class="kv-key">📗 Master 3-Car Excel Tracker</span>
+            <span class="kv-key">📗 Master Fleet Excel Tracker</span>
             <span class="kv-val"><a href="https://onedrive.live.com/personal/b7a8fd0edf0f3ecc/_layouts/15/doc.aspx?resid=6244e3d4-5748-4a4f-b9ac-0c3182a2c022&cid=b7a8fd0edf0f3ecc" target="_blank" style="color:var(--accent);">Open in Excel Online ↗</a></span>
           </div>
           <div class="kv-row">

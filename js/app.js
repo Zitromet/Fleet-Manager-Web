@@ -186,6 +186,8 @@ const VEHICLE_FIELDS = [
   ["vin", "VIN"], ["plate", "Plate"], ["state", "State"], ["currentMileage", "Current mileage"],
   ["mileageUpdatedDate", "Mileage updated"], ["manufactured", "Manufactured"], ["engine", "Engine"],
   ["transmission", "Transmission"], ["drivetrain", "Drivetrain"], ["gvwr", "GVWR"],
+  ["exteriorColor", "Exterior color"], ["interior", "Interior"],
+  ["mpgCity", "EPA city (mpg)"], ["mpgHighway", "EPA highway (mpg)"],
   ["oilSpec", "Oil spec"], ["oilNote", "Oil note"], ["badgeColor", "Badge color (#hex)"],
   ["sortOrder", "Order in list (1, 2, 3…)"],
 ];
@@ -203,7 +205,8 @@ function editVehicle(id) {
                     value: v.id, required: true, readonly: !isNew }]
     .concat(VEHICLE_FIELDS.map(([k, label]) => ({
       key: k, label, value: v[k] ?? "", required: k === "name",
-      type: k === "currentMileage" || k === "sortOrder" ? "number" : guessType(k, v[k]) })))
+      type: k === "currentMileage" || k === "sortOrder" || k === "mpgCity" || k === "mpgHighway"
+        ? "number" : guessType(k, v[k]) })))
     .concat(Object.keys(v.tires || {}).map(k => ({
       key: "tires." + k, label: "Tires: " + k, value: v.tires[k], type: guessType(k, template.tires[k] ?? v.tires[k]) })))
     .concat(Object.keys(v.dmv || {}).map(k => ({
